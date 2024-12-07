@@ -59,7 +59,7 @@ describe('Screen: Dashboard', () => {
       fireEvent.changeText(searchInput, cityName)
     }))
 
-    await waitFor(async () => await act(async () => {
+    await waitFor( () => act(async () => {
       fireEvent.press(await screen.getByText(cityName, { exact: false }))
     }))
 

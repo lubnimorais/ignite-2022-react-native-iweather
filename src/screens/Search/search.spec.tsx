@@ -16,7 +16,7 @@ describe('Screen: Search', () => {
 
     fireEvent.changeText(searchInput, "Jadonburgh")
 
-    const option = await waitFor(async () => screen.findByText(/Jadonburgh/i));
+    const option = await waitFor(() => screen.findByText(/Jadonburgh/i))
 
     expect(option).toBeTruthy()
   })
