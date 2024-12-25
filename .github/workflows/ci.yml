@@ -18,10 +18,20 @@ jobs:
 
     # DEFINIR OS PASSOS A SEREM EXECUTADOS
     steps:
+      # CHECKOUT DO REPOSITORY
       - name: Checkout repository
-      uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
+      # EXECUTA O NODE
       - name: Setup NodeJS
-      uses: actions/setup-node@v3
-      with:
-        node-version: 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+      
+      # INSTALA AS DEPENDÊNCIAS
+      - name: Install dependencies
+        run: npm install
+      
+      # EXECUTA OS TESTES
+      - name: Run Tests
+        run: npm test
