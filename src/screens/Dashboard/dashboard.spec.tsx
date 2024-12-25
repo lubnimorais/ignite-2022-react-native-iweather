@@ -59,10 +59,10 @@ describe('Screen: Dashboard', () => {
       fireEvent.changeText(searchInput, cityName)
     }))
 
-    await waitFor( () => act(async () => {
-      fireEvent.press(expect(screen.getByText(cityName, { exact: false })).toBeTruthy())
+    await waitFor( async () => await act(async () => {
+      fireEvent.press(await screen.getByText(cityName, { exact: false }))
     }))
 
-    // expect(await screen.getByText(cityName, { exact: false })).toBeTruthy()
+    expect(await screen.getByText(cityName, { exact: false })).toBeTruthy()
   })
 })
