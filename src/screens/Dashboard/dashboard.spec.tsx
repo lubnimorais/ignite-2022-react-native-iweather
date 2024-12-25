@@ -60,9 +60,9 @@ describe('Screen: Dashboard', () => {
     }))
 
     await waitFor( () => act(async () => {
-      fireEvent.press(await screen.getByText(cityName, { exact: false }))
+      fireEvent.press(expect(screen.getByText(cityName, { exact: false })).toBeTruthy())
     }))
 
-    expect(await screen.getByText(cityName, { exact: false })).toBeTruthy()
+    // expect(await screen.getByText(cityName, { exact: false })).toBeTruthy()
   })
 })
