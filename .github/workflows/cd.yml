@@ -1,0 +1,49 @@
+name: CD
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_run:
+    # COLOCA O NOME QUE FOI DEFINIDO PARA O WORKFLOW
+    workflows: [CI]
+    # QUANDO QUEREMOS QUE SEJA EXECUTADO
+    types:
+      - completed
+
+jobs:
+  CD:
+    name: Continuos Delivery
+    # DEFINIR A IMAGEM DA MÁQUINA QUE VAI UTILIZAR NA GITHUB ACTION
+    runs-on: ubuntu-latest
+
+    # CONDIÇÃO PARA SER EXECUTADO SE PASSAR COM SUCESSO
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    # DEFINIR OS PASSOS A SEREM EXECUTADOS
+    steps:
+      # CHECKOUT DO REPOSITORY
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # EXECUTA O NODE
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+      
+      # DEFININDO O SETUP DO EAS
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          package: npm
+          # TOKEN PARA CONCEDER O ACESSO PARA O FLUXO AUTOMATIZADO CONSEGUIR
+          # GERAR A BUILD PELO GITHUB ACTION
+          token: ${{ secrets.EAS_EXPO_TOKEN }}
+      
+      # GERANDO A BUILD
+      - name: Build
+        # --no-interactive: NÃO QUEREMOS INTERAGIR COM O PROCESSO DE BUILD
+        # --no-wait: NÃO ESPERAR A BUILD TERMINAR
+        run: eas build --platform android --profile preview --non-interactive --no-wait
