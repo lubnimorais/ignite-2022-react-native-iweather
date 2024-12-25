@@ -26,7 +26,7 @@ describe('Screen: Dashboard', () => {
 
     render(<Dashboard />)
 
-    await waitFor(() => expect( screen.findByText(/new allieport/i, {}, { timeout: 3000})).toBeTruthy());
+    await waitFor(() => expect(screen.findByText(/new allieport/i, {}, { timeout: 3000})).toBeTruthy());
 
     // expect(cityName).toBeTruthy()
   })
