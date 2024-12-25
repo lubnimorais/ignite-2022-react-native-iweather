@@ -1,0 +1,27 @@
+# NOME DO FLUXO
+name: CI
+
+# QUANDO QUER QUE O FLUXO SEJA INICIADO
+# FICA OBSERVANDO QUANDO ACONTECE O EVENTO DE PUSH NA MAIN A BRANCH PRINCIPAL
+on:
+  push:
+    branches:
+      - main
+
+# EXECUTAR UMA TAREFA
+jobs:
+  # TAREFA DE CI
+  CI:
+    name: Continuos Integration
+    # DEFINIR A IMAGEM DA MÁQUINA QUE VAI UTILIZAR NA GITHUB ACTION
+    runs-on: ubuntu-latest
+
+    # DEFINIR OS PASSOS A SEREM EXECUTADOS
+    steps:
+      - name: Checkout repository
+      uses: actions/checkout@v3
+
+      - name: Setup NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: 22.x
