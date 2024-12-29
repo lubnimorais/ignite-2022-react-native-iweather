@@ -41,9 +41,23 @@ jobs:
           # TOKEN PARA CONCEDER O ACESSO PARA O FLUXO AUTOMATIZADO CONSEGUIR
           # GERAR A BUILD PELO GITHUB ACTION
           token: ${{ secrets.EAS_EXPO_TOKEN }}
+
+      # INSTALAÇÃO DAS DEPENDÊNCIAS
+      - name: Install dependencies
+        run: npm i
+
+      - name: Get config file
+        env:
+          GOOGLE_SERVICES_64: ${{ secrets.EAS_GOOGLE_PLAY_API }}
+        # FAZENDO UMA CONVERSÃO TEMPORÁRIA PARA FAZER O SUBMIT
+        # PRECISAMOS TER ESSE ARQUIVO DISPONÍVEL PARA UTILIZAR ELE
+        # DENTRO DAS CONFIGURAÇÕES DO SUBMIT
+        run: |
+          echo $GOOGLE_SERVICES_64 > google-services.json.b64
+          base64 -d -i google-services.json.b64 > google-service.json
       
       # GERANDO A BUILD
       - name: Build
         # --no-interactive: NÃO QUEREMOS INTERAGIR COM O PROCESSO DE BUILD
         # --no-wait: NÃO ESPERAR A BUILD TERMINAR
-        run: eas build --platform android --profile preview --non-interactive --no-wait
+        run: EXPO_APPLE_APP_SPECIFIC_PASSWORD=${{ secrets.EAS_APPLE_APP_SPECIFIC }} eas build --platform all --profile production --non-interactive --auto-submit-with-profile=preview --no-wait
